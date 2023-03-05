@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Authorize</title>
+  <link th:href="@{/style.css}" rel="stylesheet" />
+</head>
+<body>
+<form th:action="@{/authorize}" th:object="${userRegistration}" method="post">
+  <div class="container">
+    <div class="login">Введите свой логин
+      <label for="login">
+        <input type="text" id="login" th:field="*{login}">
+      </label>
+    </div>
+    <br>
+    <div class="password">Введите свой пароль
+      <label for="password">
+        <input type="password" id="password" th:field="*{password}">
+      </label>
+    </div>
+    <br>
+    <button>Войти</button>
+  </div>
+</form>
+</body>
+</html>

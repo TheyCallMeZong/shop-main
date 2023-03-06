@@ -6,7 +6,7 @@
   <link th:href="@{/style.css}" rel="stylesheet" />
 </head>
 <body>
-<form th:action="@{/authorize}" th:object="${userRegistration}" method="post">
+<form th:action="@{/authorize}" th:object="${user}" method="post">
   <div class="container">
     <div class="login">Введите свой логин
       <label for="login">
@@ -21,7 +21,10 @@
     </div>
     <br>
     <button>Войти</button>
+    <div style="color:red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
   </div>
+
 </form>
 </body>
 </html>

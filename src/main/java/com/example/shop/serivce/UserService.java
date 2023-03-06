@@ -2,9 +2,13 @@ package com.example.shop.serivce;
 
 import com.example.shop.extentions.exeptions.UserNotFoundException;
 import com.example.shop.models.User;
+import com.example.shop.models.dto.UserRegistration;
 import com.example.shop.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,17 +17,19 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
+        modelMapper = new ModelMapper();
     }
 
     public User authorize(String login, String password) throws UserNotFoundException {
         if (login.isEmpty() || password.isEmpty()){
             return null;
         }
-        Optional<User> user = userRepository.getUserByLoginAndPassword(login, getPasswordHash(password));
+        Optional<User> user = userRepository.getUserByEmailAndPassword(login, getPasswordHash(password));
         if (user.isEmpty()){
             throw new UserNotFoundException("User with login - {" + login + "} and password - {" + password + "}" +
                     " not found" );
@@ -47,5 +53,11 @@ public class UserService {
         }
 
         return stringBuilder.toString();
+    }
+
+    public void registrationUser(UserRegistration userRegistration) {
+        User user = modelMapper.map(userRegistration, User.class);
+        user.setPassword(getPasswordHash(user.getPassword()));
+        userRepository.save(user);
     }
 }

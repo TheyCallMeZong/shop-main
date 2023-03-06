@@ -16,15 +16,10 @@ public class User {
 
     @Column(name = "first_name")
     private String firstName;
-
     private String surname;
     private String patronymic;
-
     private String email;
     private double balance;
-
-    @Column(name = "login")
-    private String login;
 
     @Column(name = "password")
     private String password;

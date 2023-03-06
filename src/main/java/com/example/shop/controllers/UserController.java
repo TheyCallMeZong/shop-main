@@ -1,10 +1,12 @@
 package com.example.shop.controllers;
 
+import com.example.shop.extentions.exeptions.UserExistException;
 import com.example.shop.extentions.exeptions.UserNotFoundException;
+import com.example.shop.models.Product;
 import com.example.shop.models.User;
 import com.example.shop.models.dto.UserAuth;
 import com.example.shop.models.dto.UserRegistration;
-import com.example.shop.repositories.UserRepository;
+import com.example.shop.serivce.ProductService;
 import com.example.shop.serivce.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 
 @Controller
@@ -33,22 +42,21 @@ public class UserController {
 
     @PostMapping("/authorize")
     public String authorize(@ModelAttribute("user") @Valid UserAuth userAuthorize,
-                               BindingResult bindingResult) {
+                                                            BindingResult bindingResult,
+                                                            Model model) {
         if (bindingResult.hasErrors()){
             return "authorize";
         }
-        User user = null;
+        User user;
         try {
             user = userService.authorize(userAuthorize.getLogin(), userAuthorize.getPassword());
-            if (user == null){
-                return "authorize";
-            }
-
         } catch (UserNotFoundException exception){
             System.out.println(exception.getMessage());
+            model.addAttribute("condition", true);
+            return "authorize";
         }
 
-        return "main-page";
+        return "redirect:/products";
     }
 
     @GetMapping("/registration")
@@ -59,11 +67,19 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("user") @Valid UserRegistration userRegistration,
-                               BindingResult bindingResult){
+                               BindingResult bindingResult,
+                               Model model){
         if (bindingResult.hasErrors()){
             return "registration";
         }
-        userService.registrationUser(userRegistration);
-        return "main-page";
+        try {
+            userService.registrationUser(userRegistration);
+        } catch (UserExistException exception){
+            System.out.println(exception.getMessage());
+            model.addAttribute("condition", true);
+            return "registration";
+        }
+
+        return "redirect:/products";
     }
 }

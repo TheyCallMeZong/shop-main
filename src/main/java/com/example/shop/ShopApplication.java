@@ -1,7 +1,5 @@
 package com.example.shop;
 
-import com.example.shop.models.User;
-import com.example.shop.models.dto.UserRegistration;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,15 +1,13 @@
 package com.example.shop.serivce;
 
+import com.example.shop.extentions.exeptions.UserExistException;
 import com.example.shop.extentions.exeptions.UserNotFoundException;
 import com.example.shop.models.User;
 import com.example.shop.models.dto.UserRegistration;
 import com.example.shop.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -55,7 +53,12 @@ public class UserService {
         return stringBuilder.toString();
     }
 
-    public void registrationUser(UserRegistration userRegistration) {
+    public void registrationUser(UserRegistration userRegistration) throws UserExistException {
+        Optional<User> userCheck = userRepository.getUserByEmail(userRegistration.getEmail());
+        if (userCheck.isPresent()){
+            throw new UserExistException("User with email - {" + userRegistration.getEmail() + "} contains in database" );
+        }
+
         User user = modelMapper.map(userRegistration, User.class);
         user.setPassword(getPasswordHash(user.getPassword()));
         userRepository.save(user);

@@ -1,6 +1,5 @@
 package com.example.shop.models.dto;
 
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,7 @@ public class UserRegistration {
     @Email(message = "Почта должна быть валидной")
     private String email;
 
-    @NotEmpty(message = "Укажите пароль, проль не должен содержать следующие символы - \".\", \",\", \"-\", \";\", \"'\"")
+    @NotEmpty(message = "Укажите пароль")
     @Size(min = 8, message = "Пароль должен быть длиннее 8 символов")
     private String password;
 }

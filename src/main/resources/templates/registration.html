@@ -38,6 +38,7 @@
             </div>
             <br>
             <button>Зарегестрироваться</button>
+            <div style="color:red" th:if="${condition}">Пользователь с таким email уже существует</div>
             <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
             <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>

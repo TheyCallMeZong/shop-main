@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping("/authorize")
     public String authorize(@ModelAttribute("user") @Valid UserAuth userAuthorize,
                                                             BindingResult bindingResult,
-                                                            Model model) {
+                                                            Model model){
         if (bindingResult.hasErrors()){
             return "authorize";
         }

@@ -21,7 +21,7 @@
     </div>
     <br>
     <button>Войти</button>
-    <div style="color:red" th:if="${condition}">Пользователь не найден</div>
+    <div style="color:red" th:if="${condition}">Проверьте правильность ввода логина и пароля</div>
     <div style="color:red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
   </div>

@@ -3,7 +3,6 @@ package com.example.shop.controllers;
 import com.example.shop.models.Product;
 import com.example.shop.serivce.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.message.Message;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @Controller
@@ -30,6 +28,9 @@ public class ProductController {
     public String setProduct(Model model) {
         List<Product> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
+        for (var product : productList) {
+            model.addAttribute("photos", product.getPhoto());
+        }
         return "main-page";
     }
 
@@ -43,10 +44,10 @@ public class ProductController {
     @GetMapping("/products/photo/{id}")
     public void showProductImage(@PathVariable int id,
                                HttpServletResponse response) throws IOException {
-        response.setContentType("image/jpeg");
-        byte[] product = productService.getPhotoById(id);
+        List<byte[]> products = productService.getPhotoById(id);
 
-        InputStream is = new ByteArrayInputStream(product);
+        response.setContentType("image/jpeg");
+        InputStream is = new ByteArrayInputStream(products.get(0));
         IOUtils.copy(is, response.getOutputStream());
     }
 }

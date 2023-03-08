@@ -7,10 +7,15 @@
 <body>
 <div class="container" th:each="product: ${products}">
   <a th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getName()}">id</a>
-  <a th:text="${product.getDescription()}">description</a>
-  <a th:text="${product.getPrice()}">price</a>
+  <span th:text="${product.getDescription()}">description</span>
+  <span><span th:text="${product.getPrice()}">price</span> P</span>
   <br>
-  <img class="card-img-top" th:src="@{'/products/photo/' + ${product.id}}" alt="photo" style="width: 40px; height: 40px">
-</div>
+  <a th:href="@{/products/{id}(id=${product.getId()})}">
+    <div th:each="photo: ${photos}">
+      <img class="card-img-top" th:src="@{'/products/photo/' + ${photo.id}}"
+         alt="photo" style="width: 40px; height: 40px">
+    </div>
+  </a>
+  </div>
 </body>
 </html>

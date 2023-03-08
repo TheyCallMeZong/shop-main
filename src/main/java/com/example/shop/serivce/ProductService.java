@@ -1,8 +1,8 @@
 package com.example.shop.serivce;
 
 import com.example.shop.models.Product;
+import com.example.shop.repositories.PhotoRepository;
 import com.example.shop.repositories.ProductRepository;
-import org.apache.logging.log4j.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,10 +11,12 @@ import java.util.Optional;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final PhotoRepository photoRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository){
+    public ProductService(ProductRepository productRepository, PhotoRepository photoRepository){
         this.productRepository = productRepository;
+        this.photoRepository = photoRepository;
     }
 
     public List<Product> getAllProducts(){
@@ -22,8 +24,8 @@ public class ProductService {
         return products.orElse(null);
     }
 
-    public byte[] getPhotoById(int id) {
-        Optional<byte[]> message = productRepository.getPhotoById(id);
+    public List<byte[]> getPhotoById(int id) {
+        Optional<List<byte[]>> message = photoRepository.getPhotoByPhotoId(id);
 
         if (message.isEmpty()){
             return null;

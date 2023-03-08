@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -17,5 +21,16 @@ public class Product {
     private String name;
     private String description;
     private double price;
-    private byte[] photo;
+    private String brand;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "gender")
+    private Gender gender;
+
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Photo> photo = new ArrayList<>();
 }

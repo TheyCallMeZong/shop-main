@@ -24,8 +24,8 @@ public class ProductService {
         return products.orElse(null);
     }
 
-    public List<byte[]> getPhotoById(int id) {
-        Optional<List<byte[]>> message = photoRepository.getPhotoByPhotoId(id);
+    public byte[] getPhotoById(int id) {
+        Optional<byte[]> message = photoRepository.getPhotoByPhotoId(id);
 
         if (message.isEmpty()){
             return null;

@@ -44,10 +44,10 @@ public class ProductController {
     @GetMapping("/products/photo/{id}")
     public void showProductImage(@PathVariable int id,
                                HttpServletResponse response) throws IOException {
-        List<byte[]> products = productService.getPhotoById(id);
+        byte[] productsPhoto = productService.getPhotoById(id);
 
         response.setContentType("image/jpeg");
-        InputStream is = new ByteArrayInputStream(products.get(0));
+        InputStream is = new ByteArrayInputStream(productsPhoto);
         IOUtils.copy(is, response.getOutputStream());
     }
 }

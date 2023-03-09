@@ -1,13 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="ru" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>main page</title>
+  <title>SHOP</title>
+  <link rel="stylesheet" href="../static/index-style.css" th:href="@{/index-style.css}">
 </head>
 <body>
-Приветствую в своем магазине
-<br>
-<p><a href="registration">Регистрация</a></p>
-<p><a href="authorize">Авторизация</a></p>
+<div class="container-all">
+  <div class="greetings"><a href="products">Semyon shop</a></div>
+  <div class="dropdown" style="float:right;">
+    <img class="dropbtn" th:src="@{/icons/man.jpg}" alt="profile">
+    <div class="dropdown-content">
+      <a href="registration">Регистрrация</a>
+      <a href="authorize">Авторизация</a>
+    </div>
+  </div>
+</div>
 </body>
 </html>

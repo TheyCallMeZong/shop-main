@@ -3,6 +3,7 @@ package com.example.shop.serivce;
 import com.example.shop.extentions.exeptions.UserExistException;
 import com.example.shop.extentions.exeptions.UserNotFoundException;
 import com.example.shop.models.User;
+import com.example.shop.models.dto.UserAuth;
 import com.example.shop.models.dto.UserRegistration;
 import com.example.shop.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -23,14 +24,16 @@ public class UserService {
         modelMapper = new ModelMapper();
     }
 
-    public User authorize(String login, String password) throws UserNotFoundException {
-        if (login.isEmpty() || password.isEmpty()){
+    public User authorize(UserAuth userAuth) throws UserNotFoundException {
+        if (userAuth.getLogin().isEmpty() || userAuth.getPassword().isEmpty()){
             return null;
         }
-        Optional<User> user = userRepository.getUserByEmailAndPassword(login, getPasswordHash(password));
+
+        Optional<User> user = userRepository.getUserByEmailAndPassword(userAuth.getLogin(),
+                getPasswordHash(userAuth.getPassword()));
         if (user.isEmpty()){
-            throw new UserNotFoundException("User with login - {" + login + "} and password - {" + password + "}" +
-                    " not found" );
+            throw new UserNotFoundException("User with login - {" + userAuth.getLogin() + "} and password - {"
+                    + userAuth.getPassword() + "} not found" );
         }
 
         return user.get();

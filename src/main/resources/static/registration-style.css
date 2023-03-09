@@ -1,0 +1,31 @@
+#patronymic, #surname, #firstName{
+    font-size: 24px;
+}
+
+button {
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+.container{
+    text-align: center;
+    font-size: 24px;
+    padding-top: 10%;
+    padding-bottom: 10%;
+}
+
+#login, #password{
+    font-size: 24px;
+}

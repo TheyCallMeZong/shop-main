@@ -1,25 +1,14 @@
 package com.example.shop;
 
-import com.example.shop.models.Gender;
-import com.example.shop.models.Photo;
-import com.example.shop.models.Product;
-import com.example.shop.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 @SpringBootApplication
 public class ShopApplication {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         var config =
                 SpringApplication.run(ShopApplication.class, args);
         /*ProductRepository productRepository = config.getBean(ProductRepository.class);

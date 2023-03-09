@@ -3,31 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <link th:href="@{/registration-style.css}" rel="stylesheet"/>
 </head>
 <body>
     <form th:action="@{/registration}" th:object="${user}" method="post">
         <div class="container">
-            <div class="password">Введите имя
+            <div class="firstName">Введите имя
                 <label for="firstName">
                     <input type="text" id="firstName" th:field="*{firstName}">
                 </label>
             </div>
             <br>
-            <div class="password">Введите фамилию
+            <div class="surname">Введите фамилию
                 <label for="surname">
                     <input type="text" id="surname" th:field="*{surname}">
                 </label>
             </div>
             <br>
-            <div class="password">Введите отчество
+            <div class="patronymic">Введите отчество
                 <label for="patronymic">
                     <input type="text" id="patronymic" th:field="*{patronymic}">
                 </label>
             </div>
             <br>
-            <div class="password">Введите почту
-                <label for="email">
-                    <input type="text" id="email" th:field="*{email}">
+            <div class="login">Введите почту
+                <label for="login">
+                    <input type="text" id="login" th:field="*{email}">
                 </label>
             </div>
             <br>

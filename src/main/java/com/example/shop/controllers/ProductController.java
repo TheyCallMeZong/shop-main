@@ -31,14 +31,8 @@ public class ProductController {
         for (var product : productList) {
             model.addAttribute("photos", product.getPhoto());
         }
-        return "main-page";
-    }
 
-    @GetMapping("/products/{id}")
-    public String getProductInformation(@PathVariable("id") int id, Model model) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
-        return "product-info";
+        return "main-page";
     }
 
     @GetMapping("/products/photo/{id}")
@@ -49,5 +43,24 @@ public class ProductController {
         response.setContentType("image/jpeg");
         InputStream is = new ByteArrayInputStream(productsPhoto);
         IOUtils.copy(is, response.getOutputStream());
+    }
+
+    @GetMapping(value = "/products/buy/{id}", params = "action=buy")
+    public String buyProduct(@PathVariable int id){
+        Product product = productService.getProductById(id);
+        System.out.println(product.getName());
+        return "redirect:/products";
+    }
+
+    @GetMapping(value = "/products/buy/{id}", params = "action=more")
+    public String moreProductInfo(@PathVariable int id){
+        return "redirect:/product-info/{id}";
+    }
+
+    @GetMapping("/product-info/{id}")
+    public String showMoreInformation(@PathVariable int id, Model model){
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "product-info";
     }
 }

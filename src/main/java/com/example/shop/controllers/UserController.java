@@ -5,7 +5,6 @@ import com.example.shop.extentions.exeptions.UserNotFoundException;
 import com.example.shop.models.User;
 import com.example.shop.models.dto.UserAuth;
 import com.example.shop.models.dto.UserRegistration;
-import com.example.shop.serivce.ProductService;
 import com.example.shop.serivce.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class UserController {
         }
         User user;
         try {
-            user = userService.authorize(userAuthorize.getLogin(), userAuthorize.getPassword());
+            user = userService.authorize(userAuthorize);
         } catch (UserNotFoundException exception){
             System.out.println(exception.getMessage());
             model.addAttribute("condition", true);

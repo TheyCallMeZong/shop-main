@@ -28,9 +28,6 @@ public class ProductController {
     public String setProduct(Model model) {
         List<Product> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
-        for (var product : productList) {
-            model.addAttribute("photos", product.getPhoto());
-        }
 
         return "main-page";
     }
@@ -39,7 +36,6 @@ public class ProductController {
     public void showProductImage(@PathVariable int id,
                                HttpServletResponse response) throws IOException {
         byte[] productsPhoto = productService.getPhotoById(id);
-
         response.setContentType("image/jpeg");
         InputStream is = new ByteArrayInputStream(productsPhoto);
         IOUtils.copy(is, response.getOutputStream());
@@ -48,7 +44,6 @@ public class ProductController {
     @GetMapping(value = "/products/buy/{id}", params = "action=buy")
     public String buyProduct(@PathVariable int id){
         Product product = productService.getProductById(id);
-        System.out.println(product.getName());
         return "redirect:/products";
     }
 

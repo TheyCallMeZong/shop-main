@@ -1,0 +1,27 @@
+button {
+    font-size: 24px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+*{
+    font-size: 24px;
+}
+
+.product{
+    border: 2px solid black;
+    border-radius: 10px;
+    width: auto;
+    display: inline-block;
+}

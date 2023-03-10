@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Main</title>
+  <link rel="stylesheet" href="../static/slider.css" th:href="@{/slider.css}">
 </head>
 <body>
 <div class="container" th:each="product: ${products}">
   <form th:action="@{/products/buy/{id}(id = ${product.getId()})}" method="get">
-    <span th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getName()}">id</span>
-    <span th:text="${product.getDescription()}">description</span>
-    <span><span th:text="${product.getPrice()}">price</span> P</span>
-    <br>
-    <p>
-      <div th:each="photo: ${photos}">
+    <div class="product">
+      <span th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getName()}">Name</span>
+      <br>
+      <div th:each="photo: ${product.getPhoto()}">
         <img class="card-img-top" th:src="@{'/products/photo/' + ${photo.id}}"
-          alt="photo" style="width: 40px; height: 40px">
+             alt="photo" style="width: 60px; height: 60px">
       </div>
-    </p>
-    <button type="submit" name="action" value="buy">Купить</button>
-    <button type="submit" name="action" value="more">Узнать подробнее</button>
+      <button type="submit" name="action" value="buy"><img th:src="@{/icons/bag.svg}" alt="bag"></button>
+      <button type="submit" name="action" value="more">
+        <img th:src="@{/icons/three-dots.svg}" alt="more">
+      </button>
+    </div>
   </form>
 </div>
 </body>

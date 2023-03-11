@@ -2,6 +2,8 @@ package com.example.shop.controllers;
 
 import com.example.shop.models.Product;
 import com.example.shop.serivce.ProductService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,6 @@ public class ProductController {
     public String setProduct(Model model) {
         List<Product> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
-
         return "main-page";
     }
 
@@ -42,8 +43,14 @@ public class ProductController {
     }
 
     @GetMapping(value = "/products/buy/{id}", params = "action=buy")
-    public String buyProduct(@PathVariable int id){
+    public String buyProduct(@PathVariable int id, HttpServletRequest request){
         Product product = productService.getProductById(id);
+        Cookie[] cookies = request.getCookies();
+        for (var cookie: cookies) {
+            if (cookie.getName().equals("user")){
+                System.out.println(cookie.getValue());
+            }
+        }
         return "redirect:/products";
     }
 

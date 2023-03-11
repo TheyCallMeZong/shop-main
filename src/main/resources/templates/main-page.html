@@ -6,14 +6,25 @@
   <link rel="stylesheet" href="../static/slider.css" th:href="@{/slider.css}">
 </head>
 <body>
+<div class="info">
+  <h2 class="greetings">Semyon shop</h2>
+  <div class="dropdown" style="float:right;">
+    <img class="dropbtn" th:src="@{/icons/man.jpg}" alt="profile" style="width: 60px; height: 60px"
+      src="../static/icons/man.jpg">
+    <div class="dropdown-content">
+      <a href="registration">Регистрrация</a>
+      <a href="authorize">Авторизация</a>
+    </div>
+  </div>
+</div>
 <div class="container" th:each="product: ${products}">
   <form th:action="@{/products/buy/{id}(id = ${product.getId()})}" method="get">
     <div class="product">
       <span th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getName()}">Name</span>
       <br>
-      <div th:each="photo: ${product.getPhoto()}">
-        <img class="card-img-top" th:src="@{'/products/photo/' + ${photo.id}}"
-             alt="photo" style="width: 60px; height: 60px">
+      <div>
+        <img class="card-img-top" th:src="@{'/products/photo/' + ${product.getPhoto().get(0).getId()}}"
+             alt="photo" style="width: 120px; height: 120px">
       </div>
       <button type="submit" name="action" value="buy"><img th:src="@{/icons/bag.svg}" alt="bag"></button>
       <button type="submit" name="action" value="more">

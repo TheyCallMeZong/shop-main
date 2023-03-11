@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/more-info-slider.css}">
 <head>
     <meta charset="UTF-8">
     <title>Product info</title>
 </head>
 <body>
-<div th:object="${product}">
-    <p th:text="*{name}">name</p>
-    <p th:text="*{description}">description</p>
-    <p><span th:text="*{price}">price</span> P</p>
+<div th:object="${product}" class="container">
+    <form th:action="@{/products/buy/{id}(id = ${product.getId()})}" method="get">
+        <p th:text="*{name}">name</p>
+        <p th:text="*{description}">description</p>
+        <p>
+            <span th:text="*{price}">price</span> P
+        </p>
+        <div th:each="photo: ${product.getPhoto()}">
+            <div class="slideshow-container">
+                <div class="mySlides fade">
+            <img class="card-img-top" th:src="@{'/products/photo/' + ${photo.id}}"
+                 alt="photo" style="width: 100px; height: 100px">
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+        <button type="submit" name="action" value="buy">
+            <img th:src="@{/icons/bag.svg}" alt="bag">
+        </button>
+    </form>
 </div>
 </body>
+<script th:src="@{/slider.js}"></script>
 </html>

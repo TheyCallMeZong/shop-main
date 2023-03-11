@@ -6,6 +6,8 @@ import com.example.shop.models.User;
 import com.example.shop.models.dto.UserAuth;
 import com.example.shop.models.dto.UserRegistration;
 import com.example.shop.serivce.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,14 +34,19 @@ public class UserController {
 
     @PostMapping("/authorize")
     public String authorize(@ModelAttribute("user") @Valid UserAuth userAuthorize,
-                                                            BindingResult bindingResult,
-                                                            Model model){
+                            BindingResult bindingResult,
+                            Model model,
+                            HttpServletResponse response){
         if (bindingResult.hasErrors()){
             return "authorize";
         }
         User user;
         try {
             user = userService.authorize(userAuthorize);
+            Cookie cookie = new Cookie("user", user.getId().toString());
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            response.addCookie(cookie);
         } catch (UserNotFoundException exception){
             System.out.println(exception.getMessage());
             model.addAttribute("condition", true);

@@ -50,10 +50,7 @@ public class UserController {
             Cookie cookie = new Cookie("user-token", token);
             cookie.setSecure(true);
             cookie.setHttpOnly(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(86400);
             response.addCookie(cookie);
-            response.setContentType("text/plain");
         } catch (UserNotFoundException exception){
             System.out.println(exception.getMessage());
             model.addAttribute("condition", true);

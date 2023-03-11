@@ -32,4 +32,8 @@ public class Product {
             orphanRemoval = true
     )
     private List<Photo> photo = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "basket_id")
+    private Basket basket;
 }

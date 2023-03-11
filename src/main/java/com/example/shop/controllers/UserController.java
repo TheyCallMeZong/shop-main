@@ -1,5 +1,6 @@
 package com.example.shop.controllers;
 
+import com.example.shop.config.JwtTokenProvider;
 import com.example.shop.extentions.exeptions.UserExistException;
 import com.example.shop.extentions.exeptions.UserNotFoundException;
 import com.example.shop.models.User;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, JwtTokenProvider jwtTokenProvider){
         this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping("/authorize")
@@ -43,10 +46,14 @@ public class UserController {
         User user;
         try {
             user = userService.authorize(userAuthorize);
-            Cookie cookie = new Cookie("user", user.getId().toString());
-            cookie.setHttpOnly(true);
+            String token = jwtTokenProvider.generateToken(user);
+            Cookie cookie = new Cookie("user-token", token);
             cookie.setSecure(true);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(86400);
             response.addCookie(cookie);
+            response.setContentType("text/plain");
         } catch (UserNotFoundException exception){
             System.out.println(exception.getMessage());
             model.addAttribute("condition", true);

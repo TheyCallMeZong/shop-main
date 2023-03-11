@@ -1,6 +1,8 @@
 package com.example.shop.controllers;
 
+import com.example.shop.config.JwtTokenProvider;
 import com.example.shop.models.Product;
+import com.example.shop.models.User;
 import com.example.shop.serivce.ProductService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,6 +11,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -20,10 +23,12 @@ import java.util.List;
 @Controller
 public class ProductController {
     private final ProductService productService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, JwtTokenProvider jwtTokenProvider) {
         this.productService = productService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @GetMapping("/products")
@@ -43,13 +48,10 @@ public class ProductController {
     }
 
     @GetMapping(value = "/products/buy/{id}", params = "action=buy")
-    public String buyProduct(@PathVariable int id, HttpServletRequest request){
+    public String buyProduct(@PathVariable int id, @CookieValue(name = "user-token", required = false) String cookie) {
         Product product = productService.getProductById(id);
-        Cookie[] cookies = request.getCookies();
-        for (var cookie: cookies) {
-            if (cookie.getName().equals("user")){
-                System.out.println(cookie.getValue());
-            }
+        if (cookie != null){
+            System.out.println(cookie);
         }
         return "redirect:/products";
     }

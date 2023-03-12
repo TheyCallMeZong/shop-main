@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "basket", schema = "public")
@@ -22,13 +24,13 @@ public class Basket {
     private User user;
 
     @OneToMany(
-            mappedBy = "basket",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            mappedBy = "basket"
     )
-    private List<Product> productList;
+    private Set<ProductsInBasket> productList;
 
     {
-        productList = new ArrayList<>();
+        productList = new HashSet<>();
     }
 }

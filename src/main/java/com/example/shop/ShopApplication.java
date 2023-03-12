@@ -1,21 +1,11 @@
 package com.example.shop;
 
-import com.example.shop.models.Gender;
-import com.example.shop.models.Photo;
-import com.example.shop.models.Product;
-import com.example.shop.repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class ShopApplication {
@@ -23,6 +13,17 @@ public class ShopApplication {
     public static void main(String[] args) throws IOException {
         var config =
                 SpringApplication.run(ShopApplication.class, args);
+        /*BasketRepository basketRepository = config.getBean(BasketRepository.class);
+        UserRepository userRepository = config.getBean(UserRepository.class);
+        User user = userRepository.findById(1L).get();
+        ProductRepository productRepository = config.getBean(ProductRepository.class);
+        Product product = productRepository.findById(33L).get();
+        Basket basket = new Basket();
+        Set<Product> products = new HashSet<>();
+        products.add(product);
+        basket.setUser(user);
+        basket.setProductList(products);
+        basketRepository.save(basket);*/
         /*ProductRepository productRepository = config.getBean(ProductRepository.class);
         Photo photo = new Photo();
         BufferedImage bImage = ImageIO.read(new File("/Users/semensavcenko/Downloads/1.jpg"));

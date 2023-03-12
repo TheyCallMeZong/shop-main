@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,7 +34,10 @@ public class Product {
     )
     private List<Photo> photo = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "basket_id")
-    private Basket basket;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "product"
+    )
+    private Set<ProductsInBasket> basket;
 }

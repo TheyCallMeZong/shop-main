@@ -3,9 +3,8 @@ package com.example.shop.controllers;
 import com.example.shop.config.JwtTokenProvider;
 import com.example.shop.models.Product;
 import com.example.shop.models.User;
+import com.example.shop.serivce.BasketService;
 import com.example.shop.serivce.ProductService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,15 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final BasketService basketService;
 
     @Autowired
-    public ProductController(ProductService productService, JwtTokenProvider jwtTokenProvider) {
+    public ProductController(ProductService productService,
+                             JwtTokenProvider jwtTokenProvider,
+                             BasketService basketService) {
         this.productService = productService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.basketService = basketService;
     }
 
     @GetMapping("/products")
@@ -48,11 +51,14 @@ public class ProductController {
     }
 
     @GetMapping(value = "/products/buy/{id}", params = "action=buy")
-    public String buyProduct(@PathVariable int id, @CookieValue(name = "user-token", required = false) String cookie) {
-        Product product = productService.getProductById(id);
-        if (cookie != null){
-            System.out.println(cookie);
+    public String buyProduct(@PathVariable int id, @CookieValue(name = "user-token", required = false) String cookie,
+                             Model model) {
+        if (cookie == null){
+            return "redirect:/authorize";
         }
+        Product product = productService.getProductById(id);
+        User user = jwtTokenProvider.getUserFromToken(cookie);
+        basketService.addProductInBasket(product, user);
         return "redirect:/products";
     }
 

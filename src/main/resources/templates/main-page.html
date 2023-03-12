@@ -17,6 +17,7 @@
     </div>
   </div>
 </div>
+<div th:text="${err}"></div>
 <div class="container" th:each="product: ${products}">
   <form th:action="@{/products/buy/{id}(id = ${product.getId()})}" method="get">
     <div class="product">

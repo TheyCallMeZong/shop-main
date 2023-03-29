@@ -35,3 +35,4 @@ Thymeleaf
 Modelmapper
 </li>
 </ul>
+Ожидается расширение проекта

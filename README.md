@@ -8,7 +8,7 @@
 <h3>Стек технологий</h3>
 <ul>
 <li>
-java version - 18.0.2
+Java version - 18.0.2
 </li>
 <li>
 СУБД - postgres
@@ -29,6 +29,9 @@ Lombok
 JWT
 </li>
 <li>
-thymeleaf
+Thymeleaf
+</li>
+<li>
+Modelmapper
 </li>
 </ul>

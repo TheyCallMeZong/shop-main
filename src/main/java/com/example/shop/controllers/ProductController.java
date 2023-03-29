@@ -1,6 +1,7 @@
 package com.example.shop.controllers;
 
 import com.example.shop.config.JwtTokenProvider;
+import com.example.shop.models.Basket;
 import com.example.shop.models.Product;
 import com.example.shop.models.User;
 import com.example.shop.serivce.BasketService;
@@ -35,9 +36,15 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String setProduct(Model model) {
+    public String setProduct(Model model, @CookieValue(value = "user-token", required = false) String value) {
         List<Product> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
+        if (jwtTokenProvider.validateToken(value)){
+            Basket basket = basketService.getBasketByUserId(jwtTokenProvider.getUserFromToken(value).getId());
+            if (basket != null){
+                model.addAttribute("count", basket.getProductList().size());
+            }
+        }
         return "main-page";
     }
 
@@ -53,7 +60,7 @@ public class ProductController {
     @GetMapping(value = "/products/buy/{id}", params = "action=buy")
     public String buyProduct(@PathVariable int id, @CookieValue(name = "user-token", required = false) String cookie,
                              Model model) {
-        if (cookie == null){
+        if (cookie == null || !jwtTokenProvider.validateToken(cookie)){
             return "redirect:/authorize";
         }
         Product product = productService.getProductById(id);

@@ -39,5 +39,5 @@ public class Product {
             orphanRemoval = true,
             mappedBy = "product"
     )
-    private Set<ProductsInBasket> basket;
+    private List<ProductsInBasket> basket;
 }

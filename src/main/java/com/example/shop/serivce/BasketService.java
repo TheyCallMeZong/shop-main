@@ -23,28 +23,7 @@ public class BasketService {
         this.basketRepository = basketRepository;
     }
 
-    /*public void addProductInBasket(Product product, User user){
-        Optional<Basket> basketOptional = basketRepository.getBasketByUserId(user.getId());
-        int numOfProducts = 1;
-        if (basketOptional.isPresent()){
-            Basket basket = basketOptional.get();
-            Long id = basketRepository.getBasketProductId(basket.getId(), product.getId());
-            if (id == null) {
-                basketRepository.saveBasketInBasketProductTable(basket.getId(), product.getId(), numOfProducts);
-                return;
-            }
-
-            numOfProducts = basketRepository.getCount(id);
-            numOfProducts++;
-            basketRepository.updateProductCount(numOfProducts, id);
-            return;
-        }
-
-        Long id = basketRepository.saveBasket(user.getId());
-        basketRepository.saveBasketInBasketProductTable(id, product.getId(), numOfProducts);
-    }*/
-
-    public void addProductInBasket(Product product, User user){
+    public ProductsInBasket addProductInBasket(Product product, User user){
         Optional<Basket> optionalBasket = basketRepository.getBasketByUserId(user.getId());
         if (optionalBasket.isPresent()){
             Basket basket = optionalBasket.get();
@@ -55,14 +34,12 @@ public class BasketService {
                 products.setProduct(product);
                 products.setBasket(basket);
                 products.setCount(1);
-                productsAddRepository.save(products);
-                return;
+                return productsAddRepository.save(products);
             }
 
             ProductsInBasket products = optionalProductsInBasket.get();
             products.setCount(products.getCount() + 1);
-            productsAddRepository.save(products);
-            return;
+            return productsAddRepository.save(products);
         }
         Basket basket = new Basket();
         basket.setUser(user);
@@ -71,6 +48,11 @@ public class BasketService {
         products.setProduct(product);
         products.setBasket(basket);
         products.setCount(1);
-        productsAddRepository.save(products);
+        return productsAddRepository.save(products);
+    }
+
+    public Basket getBasketByUserId(Long id){
+        Optional<Basket> basket = basketRepository.getBasketByUserId(id);
+        return basket.orElse(null);
     }
 }

@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT * FROM product", nativeQuery = true)
     Optional<List<Product>> getAll();
+
+    Optional<List<Product>> getProductsByBasketId(Long id);
 }

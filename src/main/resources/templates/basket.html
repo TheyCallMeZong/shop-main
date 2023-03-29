@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+    <link rel="stylesheet" th:href="@{/more-info-slider.css}">
+</head>
+<body>
+<div th:text="${basketEmpty}"></div>
+<div th:each="product : ${products}" class="container">
+    <form method="get" th:action="@{/product-info/{id}(id = ${product.getId()})}">
+        <span th:text="${product.getPrice()}"></span> P
+        <span th:text="${product.getDescription()}"></span>
+        <div>
+            <img class="card-img-top" th:src="@{'/products/photo/' + ${product.getPhoto().get(0).getId()}}"
+                 alt="photo" style="width: 120px; height: 120px">
+        </div>
+        <button type="submit" name="action" value="more">
+            <img th:src="@{/icons/three-dots.svg}" alt="more">
+        </button>
+    </form>
+</div>
+<form method="post" th:action="@{/basket/pay}">
+    <button>Click</button>
+</form>
+</body>
+</html>

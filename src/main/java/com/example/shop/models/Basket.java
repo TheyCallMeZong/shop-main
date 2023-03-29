@@ -28,9 +28,9 @@ public class Basket {
             orphanRemoval = true,
             mappedBy = "basket"
     )
-    private Set<ProductsInBasket> productList;
+    private List<ProductsInBasket> productList;
 
     {
-        productList = new HashSet<>();
+        productList = new ArrayList<>();
     }
 }
